@@ -106,10 +106,10 @@ end
 r:slider_float("Aim FOV", {'aimfov'}, '', 0, 50, 5, 1, function(state)
     fov = state/100
 end)
-r:slider("Activation Distance", {'acdist'}, 'when to aim at Player', 0, 1000, 170, 10, function(state)
+r:slider("Activation Distance", {'acdist'}, 'when to aim at Player', 0, 500, 170, 10, function(state)
     ABdist = state
 end)
-r:slider('Deactivate Distance', {'deacdist'}, 'when to stop when near to ground5', 0,1000,70,10, function(state)
+r:slider('Deactivate Distance', {'deacdist'}, 'when to stop when near to ground5', 0,500,70,10, function(state)
     DEheight = state
 end)
 r:toggle_loop("Circle", {'c'}, "", function()
