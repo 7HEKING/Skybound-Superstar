@@ -103,6 +103,9 @@ function target()
     end
 end
 
+r:toggle_loop("Aircraft Aimbot", {'aa'}, "", function()
+    target()
+end)
 r:slider_float("Aim FOV", {'aimfov'}, '', 0, 50, 5, 1, function(state)
     fov = state/100
 end)
@@ -115,8 +118,6 @@ end)
 r:toggle_loop("Circle", {'c'}, "", function()
     draw_circle()
 end)
-r:toggle_loop("Aircraft Aimbot", {'aa'}, "", function()
-    target()
-end)
+
 
 util.keep_running()
