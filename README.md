@@ -9,6 +9,6 @@
 > 
 > Hunter, Akula, Savage, Sparrow, Sea Sparrow, Weaponized Conada
 > 
-> Oppressor MK I, Oppressor MK II
+> Oppressor MK I, Oppressor MK II, Thruster
 > 
 > Scramjet, Deluxo
