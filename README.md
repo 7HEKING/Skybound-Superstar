@@ -5,9 +5,9 @@
 
 ## Vehicles
 
-> P-996 Lazer, B-11 Strikeforce, Hydra, Pyro, V-65 Molotok, LF-22 Starling
+> P-996 Lazer, B-11 Strikeforce, Hydra, Pyro, V-65 Molotok, LF-22 Starling, F-160 Raiju
 > 
-> Hunter, Akula, Savage
+> Hunter, Akula, Savage, Sparrow, Sea Sparrow, Weaponized Conada
 > 
 > Oppressor MK I, Oppressor MK II
 > 
