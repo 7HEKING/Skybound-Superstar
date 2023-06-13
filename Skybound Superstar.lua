@@ -6,8 +6,7 @@ local DEheight = 100
 local center = 0.5
 local circle = true
 local X, Y = memory.alloc(4), memory.alloc(4)
-local Wveh = {970385471,-1281684762,-638562243,1483171323,884483972,2069146067,1181327175,-42959138,-82626025,1565978651,-1386191424,1692272545,-1700874274, -522121643, -750108978, -833486948, -385256858, -1206245037}
-
+local Wveh = {-1281684762, 1692272545, 970385471, -1386191424, 1565978651, -1700874274, 239897677, -42959138, 1181327175, -82626025, -726768679, 1229411063, -1659004814, 884483972, 2069146067, -638562243, 1483171323}
 --[[
 X-Axis: Pitch        (Rotation or movement left or right)
 Y-Axis: Roll         (Rotation or movement up or down)
@@ -118,6 +117,5 @@ end)
 r:toggle_loop("Circle", {'c'}, "", function()
     draw_circle()
 end)
-
 
 util.keep_running()
