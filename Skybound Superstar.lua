@@ -7,11 +7,6 @@ local center = 0.5
 local circle = true
 local X, Y = memory.alloc(4), memory.alloc(4)
 local Wveh = {-1281684762, 1692272545, 970385471, -1386191424, 1565978651, -1700874274, 239897677, -42959138, 1181327175, -82626025, -726768679, 1229411063, -1659004814, 884483972, 2069146067, -638562243, 1483171323}
---[[
-X-Axis: Pitch        (Rotation or movement left or right)
-Y-Axis: Roll         (Rotation or movement up or down)
-Z-Axis: Yaw/Heading  (Rotation or movement from side to side)
-]]
 
 local function get_hash(entity)native_invoker.begin_call()native_invoker.push_arg_int(entity)native_invoker.end_call("9F47B058362C84B5")return native_invoker.get_return_value_int()end
 local function pid_to_ped(player)native_invoker.begin_call();native_invoker.push_arg_int(player);native_invoker.end_call("50FAC3A3E030A6E1");return native_invoker.get_return_value_int();end
@@ -25,6 +20,7 @@ local function clear_los_to_entity(entity1, entity2, traceType)native_invoker.be
 local function set_entity_rotation(entity, pitch, roll, yaw, rotationOrder, p5)native_invoker.begin_call();native_invoker.push_arg_int(entity);native_invoker.push_arg_float(pitch);native_invoker.push_arg_float(roll);native_invoker.push_arg_float(yaw);native_invoker.push_arg_int(rotationOrder);native_invoker.push_arg_bool(p5);native_invoker.end_call("8524A8B0171D5E07");end
 local function get_bone_coords(ped, boneId, offsetX, offsetY, offsetZ)native_invoker.begin_call();native_invoker.push_arg_int(ped);native_invoker.push_arg_int(boneId);native_invoker.push_arg_float(offsetX);native_invoker.push_arg_float(offsetY);native_invoker.push_arg_float(offsetZ);native_invoker.end_call("17C07FC640E86B4E");return native_invoker.get_return_value_vector3();end
 local function get_screen_coord_from_world_coord(worldX,worldY,worldZ, screenX,screenY)native_invoker.begin_call();native_invoker.push_arg_float(worldX);native_invoker.push_arg_float(worldY);native_invoker.push_arg_float(worldZ);native_invoker.push_arg_pointer(screenX);native_invoker.push_arg_pointer(screenY);native_invoker.end_call("34E82F05DF2974F5");return native_invoker.get_return_value_bool();end
+local function get_ent_model(entity)native_invoker.begin_call();native_invoker.push_arg_int(entity);native_invoker.end_call("9F47B058362C84B5");return native_invoker.get_return_value_int();end
 
 function intable(t, k)
     for _, v in t do
@@ -45,6 +41,7 @@ function inArea(x,y,z, x2,y2,z2, off)
 end
 
 function set_heading(pid)
+
     local vc = get_entity_coords(veh())
     local p,v
     if get_vehicle_ped_is_using(pid_to_ped(pid)) > 0 then
@@ -54,12 +51,19 @@ function set_heading(pid)
         p = get_bone_coords(pid_to_ped(pid),0, 0,0,0)
         v = v3(get_entity_velocity(pid_to_ped(pid)))
     end
+
     local a = v3(vc.x, vc.y, vc.z)
     local b = v3(p.x,p.y,p.z)
     local Fp = v3(b.x + (v:getX() * 0.05), b.y + (v:getY() * 0.05), b.z + (v:getZ() * 0.05))
-    local Fb = v3(Fp:getX(), Fp:getY(), Fp:getZ())
+    local Fb = v3(Fp:get())
     local lookRotation = v3.lookAt(a, Fb)
-    set_entity_rotation(veh(), lookRotation:getX(), lookRotation:getY(), lookRotation:getZ(), 1, false)
+
+    if get_ent_model(veh()) == 239897677 then 
+            set_entity_rotation(veh(), lookRotation:getX()-2.5, lookRotation:getY(), lookRotation:getZ(), 1, false) --raiju is ass
+        else
+            set_entity_rotation(veh(), lookRotation:getX(), lookRotation:getY(), lookRotation:getZ(), 1, false)
+    end
+
 end
 
 function draw_circle() 
@@ -93,7 +97,7 @@ function target()
         local xx, yy = memory.read_float(X), memory.read_float(Y)
         local sdist = (xx-center)*(xx-center)+(yy-center)*(yy-center)
         local srad  = radius*radius
-            if inArea(e.x,e.y,e.z, vc.x,vc.y,vc.z, ABdist) and intable(Wveh, get_hash(veh())) and sdist <= srad and clear_los_to_entity(veh(),pid_to_ped(pid),17) and not 
+            if inArea(e.x,e.y,e.z, vc.x,vc.y,vc.z, ABdist) and intable(Wveh, get_hash(veh())) and sdist <= srad and (clear_los_to_entity(veh(),pid_to_ped(pid),17) or clear_los_to_entity(veh(),get_vehicle_ped_is_using(pid_to_ped(pid)),17)) and not 
                 (ped_dead_or_dying(pid_to_ped(pid), 1) or height < DEheight or players.is_in_interior(pid)) 
             then
                 set_heading(pid)
